@@ -146,6 +146,8 @@ sub get_phrases_in_text {
 
                 # hack away the args before the one at $arg_position
                 for my $at_index ( 1 .. $rx_conf_hr->{'arg_position'} ) {
+                    # $text_working_copy can change to an undefined value below
+                    $text_working_copy = q{} unless defined $text_working_copy;
                     $text_working_copy =~ s{^\s*\,\s*}{};
                     if ( $at_index >= $rx_conf_hr->{'arg_position'} ) {
                         $result_hr->{'offset'} = $original_len - length($text_working_copy);
@@ -157,6 +159,8 @@ sub get_phrases_in_text {
                     if ( !defined $phrase ) {
                         ( $phrase, $text_working_copy ) = Text::Balanced::extract_quotelike($text_working_copy);
                     }
+                    # or maybe
+                    #last unless defined $text_working_copy;
                 }
             }
 
